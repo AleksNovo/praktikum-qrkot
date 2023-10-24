@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     email: Optional[str] = None
     google_drive_api_version: str = 'v3'
     google_sheets_api_version: str = 'v4'
-    
+
     class Config:
         env_file = '.env'
 
