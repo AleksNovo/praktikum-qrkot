@@ -8,7 +8,8 @@ from app.core.config import settings
 
 async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
     now_date_time = datetime.now().strftime(const.DATE_FORMAT)
-    service = await wrapper_services.discover('sheets', 'v4')
+    service = await wrapper_service.discover(
+        'sheets', settings.google_sheets_api_version)
     spreadsheet_body = {
         'properties': {
             'title': const.SPREADSHEET_TITLE.format(now_date_time),
@@ -39,7 +40,8 @@ async def set_user_permissions(
     permissions_body = {'type': 'user',
                         'role': 'writer',
                         'emailAddress': settings.email}
-    service = await wrapper_services.discover('drive', 'v3')
+    service = await wrapper_service.discover(
+        'drive', settings.google_drive_api_version)
     await wrapper_services.as_service_account(
         service.permissions.create(
             fileId=spreadsheet_id,
@@ -54,7 +56,8 @@ async def spreadsheets_update_value(
         wrapper_services: Aiogoogle
 ) -> None:
     now_date_time = datetime.now().strftime(const.DATE_FORMAT)
-    service = await wrapper_services.discover('sheets', 'v4')
+    service = await wrapper_service.discover(
+        'sheets', settings.google_sheets_api_version)
     table_values = [
         [const.REPORT_DATE, now_date_time],
         [const.REPORT_NAME],
